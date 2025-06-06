@@ -1,56 +1,8 @@
-.idea/
-
-# Ignorar arquivos do React (pasta azure-auth-client)
-azure-auth-client/node_modules/
-azure-auth-client/dist/
-azure-auth-client/.env
-
-# Ignorar arquivos do .NET (pasta AzureAuthApi)
-AzureAuthApi/AzureAuthApi/bin/
-AzureAuthApi/AzureAuthApi/obj/
-AzureAuthApi/AzureAuthApi/*.user
-AzureAuthApi/AzureAuthApi/*.suo
-AzureAuthApi/AzureAuthApi/appsettings.Development.json
-AzureAuthApi/AzureAuthApi/.vs/
-AzureAuthApi/AzureAuthApi/**/obj/
-**/obj/
-
-# Ignorar arquivos globais
-*.DS_Store
-*.log
-.env
-.idea/
-
-# Ignorar arquivos do .NET (pasta AzureAuthApi)
+# .NET
 bin/
 obj/
-*/obj/
+**/bin/
 **/obj/
 *.user
 *.suo
-appsettings.Development.json
 .vs/
-
-# Ignorar arquivos globais
-*.DS_Store
-*.log
-.env
-
-.idea/
-
-# Ignorar arquivos do .NET (pasta AzureAuthApi)
-bin/
-obj/
-*/obj/
-**/obj/
-*/*/obj/
-*.user
-*.suo
-appsettings.Development.json
-.vs/
-
-# Ignorar arquivos globais
-*.DS_Store
-*.log
-.env
-
