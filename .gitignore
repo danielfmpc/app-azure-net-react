@@ -1,0 +1,19 @@
+.idea/
+
+# Ignorar arquivos do React (pasta azure-auth-client)
+azure-auth-client/node_modules/
+azure-auth-client/dist/
+azure-auth-client/.env
+
+# Ignorar arquivos do .NET (pasta AzureAuthApi)
+AzureAuthApi/bin/
+AzureAuthApi/obj/
+AzureAuthApi/*.user
+AzureAuthApi/*.suo
+AzureAuthApi/appsettings.Development.json
+AzureAuthApi/.vs/
+
+# Ignorar arquivos globais
+*.DS_Store
+*.log
+.env
