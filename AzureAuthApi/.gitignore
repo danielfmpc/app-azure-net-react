@@ -1,0 +1,15 @@
+.idea/
+
+# Ignorar arquivos do .NET (pasta AzureAuthApi)
+bin/
+obj/*
+*/obj/*
+**/obj/*
+*.user
+*.suo
+.vs/
+
+# Ignorar arquivos globais
+*.DS_Store
+*.log
+.env

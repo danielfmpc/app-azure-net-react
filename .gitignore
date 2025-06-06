@@ -6,14 +6,51 @@ azure-auth-client/dist/
 azure-auth-client/.env
 
 # Ignorar arquivos do .NET (pasta AzureAuthApi)
-AzureAuthApi/bin/
-AzureAuthApi/obj/
-AzureAuthApi/*.user
-AzureAuthApi/*.suo
-AzureAuthApi/appsettings.Development.json
-AzureAuthApi/.vs/
+AzureAuthApi/AzureAuthApi/bin/
+AzureAuthApi/AzureAuthApi/obj/
+AzureAuthApi/AzureAuthApi/*.user
+AzureAuthApi/AzureAuthApi/*.suo
+AzureAuthApi/AzureAuthApi/appsettings.Development.json
+AzureAuthApi/AzureAuthApi/.vs/
+AzureAuthApi/AzureAuthApi/**/obj/
+**/obj/
 
 # Ignorar arquivos globais
 *.DS_Store
 *.log
 .env
+.idea/
+
+# Ignorar arquivos do .NET (pasta AzureAuthApi)
+bin/
+obj/
+*/obj/
+**/obj/
+*.user
+*.suo
+appsettings.Development.json
+.vs/
+
+# Ignorar arquivos globais
+*.DS_Store
+*.log
+.env
+
+.idea/
+
+# Ignorar arquivos do .NET (pasta AzureAuthApi)
+bin/
+obj/
+*/obj/
+**/obj/
+*/*/obj/
+*.user
+*.suo
+appsettings.Development.json
+.vs/
+
+# Ignorar arquivos globais
+*.DS_Store
+*.log
+.env
+
