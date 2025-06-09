@@ -25,9 +25,6 @@
 
     <ItemGroup>
       <Folder Include="Domain\Entities\" />
-      <Folder Include="Features\Groups\Commands\" />
-      <Folder Include="Features\Me\Dtos\" />
-      <Folder Include="Features\Users\Commands\" />
     </ItemGroup>
 
 </Project>
