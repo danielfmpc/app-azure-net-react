@@ -4,6 +4,6 @@ namespace AzureAuthApi.Features.Me.RestServices.Interfaces;
 
 public interface IAzureGraphMeRest
 {
-    Task<UserProfileDto> CallApiGetMeAsync();
-    Task<UserPhotoResponseDto> CallApiGetMePhotoAsync();
+    Task<UserProfileDto> CallApiGetMeAsync(CancellationToken cancellationToken);
+    Task<UserPhotoResponseDto> CallApiGetMePhotoAsync(CancellationToken cancellationToken);
 }

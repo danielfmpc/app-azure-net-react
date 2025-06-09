@@ -11,11 +11,11 @@ public class QueryGetMeByIdHandler(IAzureGraphMeRest rest) : IRequestHandler<Que
 {
     public async Task<Result<UserProfileDto>> Handle(QueryGetMe request, CancellationToken cancellationToken)
     {
-        var profileMe = await rest.CallApiGetMeAsync();
+        var profileMe = await rest.CallApiGetMeAsync(cancellationToken);
         
         if (profileMe == null) return Result.Fail("User not found");
         
-        var profilePhoto = await rest.CallApiGetMePhotoAsync();
+        var profilePhoto = await rest.CallApiGetMePhotoAsync(cancellationToken);
         
         profileMe.Photo = profilePhoto;
         

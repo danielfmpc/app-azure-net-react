@@ -1,16 +1,22 @@
-﻿using System.Text.Json;
+﻿using System.Net;
 using Azure.Identity;
 using Microsoft.Graph;
 using AzureAuthApi.Features.Me.RestServices.Interfaces;
 using AzureAuthApi.Shared.Dtos;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace AzureAuthApi.Features.Me.RestServices;
 
-public class AzureGraphMeRest(HttpClient client, ILogger<AzureGraphMeRest> logger) : IAzureGraphMeRest
+public class AzureGraphMeRest(IHttpClientFactory httpClientFactory, ILogger<AzureGraphMeRest> logger)
+    : IAzureGraphMeRest
 {
-    public async Task<UserProfileDto> CallApiGetMeAsync()
+    
+    private readonly HttpClient client = httpClientFactory.CreateClient("MeuCliente");
+
+    public async Task<UserProfileDto> CallApiGetMeAsync(CancellationToken cancellationToken)
     {
-        var response = await client.GetAsync("/me"); // Exemplo: pegar info do usuário logado
+        var response = await client.GetAsync("me", cancellationToken); // Exemplo: pegar info do usuário logado
 
         if (!response.IsSuccessStatusCode)
         {
@@ -24,15 +30,18 @@ public class AzureGraphMeRest(HttpClient client, ILogger<AzureGraphMeRest> logge
 
         logger.LogInformation("Dados recebidos: {Json}", json);
 
-        var profile = JsonSerializer.Deserialize<UserProfileDto>(json);
+        var profile = JsonConvert.DeserializeObject<UserProfileDto>(json);
         
         return profile;
     }
     
-    public async Task<UserPhotoResponseDto> CallApiGetMePhotoAsync()
+    public async Task<UserPhotoResponseDto> CallApiGetMePhotoAsync(CancellationToken cancellationToken)
     {
-        var response = await client.GetAsync("/me/photo"); // Exemplo: pegar info do usuário logado
-
+        var response = await client.GetAsync("me/photo", cancellationToken); // Exemplo: pegar info do usuário logado
+        
+        if (response.StatusCode == HttpStatusCode.NotFound)
+            return null;
+        
         if (!response.IsSuccessStatusCode)
         {
             var msg = await response.Content.ReadAsStringAsync();
