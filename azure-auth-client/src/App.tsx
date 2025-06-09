@@ -1,33 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Router } from './routers/Router';
+import { BrowserRouter } from 'react-router-dom';
+import { useAuthStore } from '@store/auth-store';
+import { useEffect } from 'react';
+import { useIsAuthenticated, useMsal } from '@azure/msal-react';
+import { loginRequest } from './auth/msalConfig';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const isAuthenticated = useIsAuthenticated();
+  const { instance, accounts } = useMsal();
+  const { validateToken, isHydrated } = useAuthStore();
+  const isLoading = useAuthStore((state) => state.isLoading);
+
+  useEffect(() => {
+    const handleAuthentication = async () => {
+      if (!isAuthenticated) return;
+
+      try {
+        const tokenResponse = await instance.acquireTokenSilent({
+          ...loginRequest,
+          account: accounts[0],
+        });
+
+        localStorage.setItem("auth_token", tokenResponse.accessToken);
+
+        if (isHydrated)
+          await validateToken();
+
+      } catch (error) {
+        console.error("Erro ao autenticar:", error);
+      }
+    };
+
+    handleAuthentication();
+  }, [isAuthenticated, instance, accounts, validateToken, isHydrated]);
+
+  if (!isHydrated) return <div>Preparando o app...</div>;
+  if (isLoading) return <div>Carregando...</div>;
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
     </>
   )
 }
