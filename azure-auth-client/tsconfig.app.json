@@ -43,6 +43,15 @@
       ],
       "@styles/*": [
         "src/styles/*"
+      ],
+      "@auth/*": [
+        "src/auth/*"
+      ],
+      "@store/*": [
+        "src/store/*"
+      ],
+      "@screens/*": [
+        "src/screens/*"
       ]
     }
   },
