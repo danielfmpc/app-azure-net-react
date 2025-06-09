@@ -1,52 +1,56 @@
-﻿using System.Text.Json;
-using AzureAuthApi.Features.Users.RestServices.Interfaces;
+﻿using AzureAuthApi.Features.Users.RestServices.Interfaces;
 using AzureAuthApi.Shared.Dtos;
+using AzureAuthApi.Shared.Entties;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace AzureAuthApi.Features.Users.RestServices;
 
-public class AzureGraphUserRest(HttpClient client, ILogger<AzureGraphUserRest> logger) 
+public class AzureGraphUserRest(IHttpClientFactory httpClientFactory, ILogger<AzureGraphUserRest> logger) 
     : IAzureGraphUserRest
 {
-    public async Task<UserProfileDto[]> CallApiListUsersAsync()
+    private readonly HttpClient _client = httpClientFactory.CreateClient("MeuCliente");
+
+    public async Task<UserProfileDto[]> CallApiListUsersAsync(CancellationToken cancellationToken)
     {
-        var response = await client.GetAsync("users"); // Exemplo: pegar info do usuário logado
+        var response = await _client.GetAsync("users", cancellationToken);
 
         if (!response.IsSuccessStatusCode)
         {
-            var msg = await response.Content.ReadAsStringAsync();
+            var msg = await response.Content.ReadAsStringAsync(cancellationToken);
             logger.LogError("Erro: {StatusCode} - {Body}", response.StatusCode, msg);
             
             throw new Exception(msg);
         }
 
         response.EnsureSuccessStatusCode();
-        var json = await response.Content.ReadAsStringAsync();
+        var json = await response.Content.ReadAsStringAsync(cancellationToken);
 
         logger.LogInformation("Dados recebidos: {Json}", json);
 
-        var users = JsonSerializer.Deserialize<UserProfileDto[]>(json);
+        var users = JsonConvert.DeserializeObject<GraphListResponse<UserProfileDto>>(json);
         
-        return users;
+        return users.Value.ToArray();
     }
     
-    public async Task<UserProfileDto> CallApiUsersByIdAsync(string id)
+    public async Task<UserProfileDto> CallApiUsersByIdAsync(string id, CancellationToken cancellationToken)
     {
-        var response = await client.GetAsync($"users/{id}"); // Exemplo: pegar info do usuário logado
+        var response = await _client.GetAsync($"users/{id}", cancellationToken);
 
         if (!response.IsSuccessStatusCode)
         {
-            var msg = await response.Content.ReadAsStringAsync();
+            var msg = await response.Content.ReadAsStringAsync(cancellationToken);
             logger.LogError("Erro: {StatusCode} - {Body}", response.StatusCode, msg);
             
-            throw new Exception(msg);
+            return null;
         }
 
         response.EnsureSuccessStatusCode();
-        var json = await response.Content.ReadAsStringAsync();
+        var json = await response.Content.ReadAsStringAsync(cancellationToken);
 
         logger.LogInformation("Dados recebidos: {Json}", json);
 
-        var user = JsonSerializer.Deserialize<UserProfileDto>(json);
+        var user = JsonConvert.DeserializeObject<UserProfileDto>(json);
         
         return user;
     }

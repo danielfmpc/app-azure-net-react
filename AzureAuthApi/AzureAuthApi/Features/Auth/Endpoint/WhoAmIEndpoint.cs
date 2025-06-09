@@ -11,16 +11,15 @@ public static class WhoAmIEndpoint
     public static void MapWhoAmI(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet("/auth/whoami", [Authorize] async (
-                ClaimsPrincipal user,
-                [FromServices] IMediator mediator
-            ) =>
-            {
-                var query = new QueryGetWhoAmI(user);
-                var result = await mediator.Send(query);
-        
-                return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
-            })
-            .WithName("WhoAmI")
-            .WithTags("Auth");
+            ClaimsPrincipal user,
+            [FromServices] IMediator mediator,
+            CancellationToken cancellationToken
+        ) =>
+        {
+            var query = new QueryGetWhoAmI(user);
+            var result = await mediator.Send(query, cancellationToken);
+
+            return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Errors);
+        });
     }
 }

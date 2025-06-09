@@ -12,11 +12,11 @@ public class AzureGraphMeRest(IHttpClientFactory httpClientFactory, ILogger<Azur
     : IAzureGraphMeRest
 {
     
-    private readonly HttpClient client = httpClientFactory.CreateClient("MeuCliente");
+    private readonly HttpClient _client = httpClientFactory.CreateClient("MeuCliente");
 
     public async Task<UserProfileDto> CallApiGetMeAsync(CancellationToken cancellationToken)
     {
-        var response = await client.GetAsync("me", cancellationToken); // Exemplo: pegar info do usuário logado
+        var response = await _client.GetAsync("me", cancellationToken);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -37,7 +37,7 @@ public class AzureGraphMeRest(IHttpClientFactory httpClientFactory, ILogger<Azur
     
     public async Task<UserPhotoResponseDto> CallApiGetMePhotoAsync(CancellationToken cancellationToken)
     {
-        var response = await client.GetAsync("me/photo", cancellationToken); // Exemplo: pegar info do usuário logado
+        var response = await _client.GetAsync("me/photo", cancellationToken); 
         
         if (response.StatusCode == HttpStatusCode.NotFound)
             return null;

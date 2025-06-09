@@ -1,22 +1,22 @@
 ﻿using AzureAuthApi.Features.Groups.Dtos;
 using AzureAuthApi.Features.Groups.RestServices.Interfaces;
+using AzureAuthApi.Shared.Dtos;
 using FluentResults;
 using MediatR;
 
 namespace AzureAuthApi.Features.Groups.Queries;
 
-public record struct QueryGetGroupById(string GroupId) : IRequest<Result<GroupsResponseDto[]>>;
+public record struct QueryGetGroupById(string GroupId) : IRequest<Result<UserProfileDto[]>>;
 
-public class QueryGetGroupByIdHandler(IAzureGraphGroupRest rest) : IRequestHandler<QueryGetGroupById, Result<GroupsResponseDto[]>>
+public class QueryGetGroupByIdHandler(IAzureGraphGroupRest rest) : IRequestHandler<QueryGetGroupById, Result<UserProfileDto[]>>
 {
-    public async Task<Result<GroupsResponseDto[]>> Handle(QueryGetGroupById request, CancellationToken cancellationToken)
+    public async Task<Result<UserProfileDto[]>> Handle(QueryGetGroupById request, CancellationToken cancellationToken)
     {
-        var result = await rest.CallApiMemberGroupByIdAsync(request.GroupId);
-
-        var groupsResponseDtos = result as GroupsResponseDto[] ?? result.ToArray();
-        if (!groupsResponseDtos.Any())
-            return Result.Fail("No logs Directory Audit found");
+        var result = await rest.CallApiMemberGroupByIdAsync(request.GroupId, cancellationToken);
         
-        return Result.Ok(groupsResponseDtos);
+        if (result.Length == 0)
+            return Result.Fail("Not found group members");
+        
+        return Result.Ok(result);
     }
 }

@@ -11,7 +11,7 @@ public class QueryGetListGroupsHandler(IAzureGraphGroupRest rest) : IRequestHand
 {
     public async Task<Result<GroupsResponseDto[]>> Handle(QueryGetListGroups request, CancellationToken cancellationToken)
     {
-        var result = await rest.CallApiListGroupsAsync();
+        var result = await rest.CallApiListGroupsAsync(cancellationToken);
 
         if (result.Length <= 0)
             return Result.Fail("No logs Directory Audit found");

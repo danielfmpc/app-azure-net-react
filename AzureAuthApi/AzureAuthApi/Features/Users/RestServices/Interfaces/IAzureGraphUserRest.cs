@@ -4,6 +4,6 @@ namespace AzureAuthApi.Features.Users.RestServices.Interfaces;
 
 public interface IAzureGraphUserRest
 {
-    Task<UserProfileDto[]> CallApiListUsersAsync();
-    Task<UserProfileDto> CallApiUsersByIdAsync(string id);
+    Task<UserProfileDto[]> CallApiListUsersAsync(CancellationToken cancellationToken);
+    Task<UserProfileDto> CallApiUsersByIdAsync(string id, CancellationToken cancellationToken);
 }

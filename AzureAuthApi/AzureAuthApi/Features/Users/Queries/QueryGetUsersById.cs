@@ -11,7 +11,7 @@ public class QueryGetUsersByIdHandler(IAzureGraphUserRest rest) : IRequestHandle
 {
     public async Task<Result<UserProfileDto>> Handle(QueryGetUsersById request, CancellationToken cancellationToken)
     {
-        var result = await rest.CallApiUsersByIdAsync(request.Id);
+        var result = await rest.CallApiUsersByIdAsync(request.Id, cancellationToken);
         
         if (result == null) return Result.Fail("User not found");
         
