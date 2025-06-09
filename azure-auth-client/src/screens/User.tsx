@@ -35,7 +35,7 @@ function User() {
 
     return (
         <div className="flex-1">
-            <Card className="w-full max-w-4xl mx-auto bg-transparent border border-zinc-800">
+            <Card className="w-full max-w-4xl bg-transparent border border-zinc-800">
                 <CardHeader className="flex flex-col md:flex-row items-center md:items-center gap-4">
                     <Avatar className="w-20 h-20 text-zinc-50">
                         <AvatarImage src={user?.photo?.photo} />
@@ -65,7 +65,7 @@ function User() {
 
                     <Separator />
                     <div>
-                        <h3 className="font-semibold mb-2">Dados completo JSON teste:</h3>
+                        <h3 className="font-semibold mb-2">Dados completo JSON:</h3>
                         <pre className="p-4 rounded text-sm overflow-x-auto bg-zinc-900 text-white">
                             {JSON.stringify(user, null, 2)}
                         </pre>
