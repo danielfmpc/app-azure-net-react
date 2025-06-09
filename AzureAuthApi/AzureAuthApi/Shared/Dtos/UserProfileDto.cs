@@ -1,6 +1,5 @@
 ﻿namespace AzureAuthApi.Shared.Dtos;
-
-public class UserProfileDto
+public record UserProfileDto
 {
     public string Id { get; set; }
     public string DisplayName { get; set; }

@@ -2,5 +2,5 @@
 
 public class GraphListResponse<T>
 {
-    public List<T> Value { get; set; } = [];
+    public T[] Value { get; set; } = [];
 }

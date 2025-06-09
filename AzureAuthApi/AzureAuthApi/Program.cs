@@ -38,7 +38,7 @@ builder.Services.AddCors(options =>
             .WithOrigins("http://localhost:5173")
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials(); // se estiver usando cookies ou autenticação
+            .AllowCredentials();
     });
 });
 
@@ -62,14 +62,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddScoped<IAzureGraphAuditlogRest,AzureGraphAuditlogRest>();
-builder.Services.AddScoped<IAzureGraphGroupRest,AzureGraphGroupRest>();
+builder.Services.AddSingleton<IAzureGraphAuditlogRest,AzureGraphAuditlogRest>();
+builder.Services.AddSingleton<IAzureGraphGroupRest,AzureGraphGroupRest>();
 builder.Services.AddSingleton<IAzureGraphMeRest,AzureGraphMeRest>();
-builder.Services.AddScoped<IAzureGraphUserRest,AzureGraphUserRest>();
+builder.Services.AddSingleton<IAzureGraphUserRest,AzureGraphUserRest>();
 
 var app = builder.Build();
 

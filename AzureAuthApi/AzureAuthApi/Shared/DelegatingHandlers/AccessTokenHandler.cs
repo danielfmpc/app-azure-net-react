@@ -28,9 +28,6 @@ public class AccessTokenHandler : DelegatingHandler
     {
 
         var frontendToken = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"].ToString();
-    
-        Console.WriteLine($"Authorization Header: {frontendToken}");
-
 
         if (!string.IsNullOrEmpty(frontendToken) && frontendToken.StartsWith("Bearer "))
         {
@@ -49,8 +46,6 @@ public class AccessTokenHandler : DelegatingHandler
                 Console.WriteLine(e);
                 throw;
             }
-
-        
         }
 
         return await base.SendAsync(request, cancellationToken);
