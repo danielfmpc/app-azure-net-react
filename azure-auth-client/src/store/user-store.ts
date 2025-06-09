@@ -61,36 +61,4 @@ export const useUserStore = create<UserStore>()(
             setUser: () => _setUser!(),
         };
     })
-    // immer((set) => ({
-    //     user: {...INITIAL_STATE},
-    //     isLoading: false,
-
-    //     setUser: async () => {
-    //         set((state) => { state.isLoading = true; });
-    //         try {
-    //             const user = await getInfoMe()
-
-    //             set((state) => {
-    //                 state.user.id = user.id;
-    //                 state.user.photo = user.photo
-    //                 state.user.displayName = user.displayName;
-    //                 state.user.givenName = user.givenName;
-    //                 state.user.surname = user.surname;
-    //                 state.user.userPrincipalName = user.userPrincipalName;
-    //                 state.user.mail = user.mail;
-    //                 state.user.jobTitle = user.jobTitle;
-    //                 state.user.mobilePhone = user.mobilePhone;
-    //                 state.user.officeLocation = user.officeLocation;
-    //                 state.user.preferredLanguage = user.preferredLanguage;
-    //                 state.user.businessPhones = user.businessPhones;
-    //                 state.isLoading = false;
-    //             });
-    //         } catch (error) {
-    //             console.error("Token inválido ou expirado", error);
-    //             set((state) => {
-    //                 Object.assign(state, INITIAL_STATE);
-    //             });
-    //         }
-    //     },
-    // }))
 )

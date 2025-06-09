@@ -33,7 +33,6 @@ function Login() {
   useEffect(() => {
     const handleAuth = async () => {
       if (isLoading) return;
-      console.log('isAuthenticated', isAuthenticated);
 
       if (isAuthenticated) {
         await getToken();
