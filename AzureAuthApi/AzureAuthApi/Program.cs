@@ -30,6 +30,18 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddLogging();
 builder.Services.AddSerilog();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials(); // se estiver usando cookies ou autenticação
+    });
+});
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddTransient<PollyHandler>();
@@ -40,6 +52,7 @@ builder.Services.AddHttpClient("MeuCliente", client =>
     {
         client.BaseAddress = new Uri("https://graph.microsoft.com/v1.0/");
     })
+    .AddHttpMessageHandler<AccessTokenHandler>()
     .AddHttpMessageHandler<PollyHandler>();
 
 
@@ -55,10 +68,13 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IAzureGraphAuditlogRest,AzureGraphAuditlogRest>();
 builder.Services.AddScoped<IAzureGraphGroupRest,AzureGraphGroupRest>();
-builder.Services.AddScoped<IAzureGraphMeRest,AzureGraphMeRest>();
+builder.Services.AddSingleton<IAzureGraphMeRest,AzureGraphMeRest>();
 builder.Services.AddScoped<IAzureGraphUserRest,AzureGraphUserRest>();
 
 var app = builder.Build();
+
+app.UseCors("AllowFrontend");
+
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -68,7 +84,6 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
 app.UseHttpsRedirection();
 
 app.MapAuditsLogsEndpoint();
@@ -76,6 +91,5 @@ app.MapGroupsEndpoint();
 app.MapUserEndpoint();
 app.MapWhoAmI();
 app.MapMe();
-
 
 app.Run();
