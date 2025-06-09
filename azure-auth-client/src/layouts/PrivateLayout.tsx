@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
-import { Home, LogOut, User } from "lucide-react";
+import { LogOut, User, UserSearch, Users, ClipboardListIcon } from "lucide-react";
+import { UsersFour, } from "phosphor-react";
 import { NavLink } from "react-router-dom";
 import logo from "@assets/logo.svg";
 import { Separator } from "@components/ui/separator";
 import { useAuthStore } from "@store/auth-store";
 import { Avatar, AvatarImage, AvatarFallback } from "@components/ui/avatar";
 import { useLogout } from "@/hooks/useLogout";
-import { useIsAuthenticated } from "@azure/msal-react";
 
 interface PrivateLayoutProps {
     children: ReactNode;
@@ -16,17 +16,13 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
     const { user } = useAuthStore();
     const logout = useLogout();
 
-    const isAuthenticated = useIsAuthenticated();
-
-    console.log(isAuthenticated);
 
     return (
         <div className="flex h-screen">
-            {/* Sidebar fixa à esquerda */}
-            {/* <aside className="w-64 bg-zinc-950 text-zinc-50 flex flex-col p-4"> */}
-            <aside className="w-64 bg-zinc-950 text-zinc-50 flex flex-col justify-between p-4">
+            <aside className="sidebar w-64 bg-zinc-950 text-zinc-50 flex flex-col p-4 h-screen overflow-y-auto">
+
                 {user && (
-                    <div className="flex-1 flex">
+                    <div className="flex-1 flex my-4">
                         <div className="flex text-sm text-gray-300 items-center gap-2">
                             <Avatar>
                                 <AvatarImage src="https://github.com/shadcn.png" />
@@ -58,38 +54,104 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
                             }`
                         }
                     >
-                        <Home size={20} />
-                        Início
-                    </NavLink>
-
-                    <NavLink
-                        to="/profile"
-                        className={({ isActive }) =>
-                            `flex items-center gap-2 p-2 rounded hover:bg-zinc-800 ${isActive ? "bg-zinc-800" : ""
-                            }`
-                        }
-                    >
                         <User size={20} />
                         Perfil
                     </NavLink>
+
                     <div className="space-y-1">
                         <h4 className="leading-none">Auditoria</h4>
                         <Separator className="my-4" />
                     </div>
 
+                    <NavLink
+                        to="/signins"
+                        className={({ isActive }) =>
+                            `flex items-center gap-2 p-2 rounded hover:bg-zinc-800 ${isActive ? "bg-zinc-800" : ""
+                            }`
+                        }
+                    >
+                        <ClipboardListIcon size={20} />
+                        SignIns
+                    </NavLink>
+
+                    <NavLink
+                        to="/directoryaudits"
+                        className={({ isActive }) =>
+                            `flex items-center gap-2 p-2 rounded hover:bg-zinc-800 ${isActive ? "bg-zinc-800" : ""
+                            }`
+                        }
+                    >
+                        <ClipboardListIcon size={20} />
+                        Directory Audits
+                    </NavLink>
+
+                    <NavLink
+                        to="/provisioning"
+                        className={({ isActive }) =>
+                            `flex items-center gap-2 p-2 rounded hover:bg-zinc-800 ${isActive ? "bg-zinc-800" : ""
+                            }`
+                        }
+                    >
+                        <ClipboardListIcon size={20} />
+                        Provisioning
+                    </NavLink>
+
                     <div className="space-y-1">
-                        <h4 className="leading-none">Gropos</h4>
+                        <h4 className="leading-none">Grupos</h4>
                         <Separator className="my-4" />
                     </div>
+
+                    <NavLink
+                        to="/groups"
+                        className={({ isActive }) =>
+                            `flex items-center gap-2 p-2 rounded hover:bg-zinc-800 ${isActive ? "bg-zinc-800" : ""
+                            }`
+                        }
+                    >
+                        <UsersFour size={20} />
+                        Groups
+                    </NavLink>
+
+                    <NavLink
+                        to="/groupmembers"
+                        className={({ isActive }) =>
+                            `flex items-center gap-2 p-2 rounded hover:bg-zinc-800 ${isActive ? "bg-zinc-800" : ""
+                            }`
+                        }
+                    >
+                        <UserSearch size={20} />
+                        Groups Members
+                    </NavLink>
 
                     <div className="space-y-1">
                         <h4 className="leading-none">Usuários</h4>
                         <Separator className="my-4" />
                     </div>
+
+                    <NavLink
+                        to="/users"
+                        className={({ isActive }) =>
+                            `flex items-center gap-2 p-2 rounded hover:bg-zinc-800 ${isActive ? "bg-zinc-800" : ""
+                            }`
+                        }
+                    >
+                        <Users size={20} />
+                        Users
+                    </NavLink>
+
+                    <NavLink
+                        to="/searchusers"
+                        className={({ isActive }) =>
+                            `flex items-center gap-2 p-2 rounded hover:bg-zinc-800 ${isActive ? "bg-zinc-800" : ""
+                            }`
+                        }
+                    >
+                        <UserSearch size={20} />
+                        Search Users
+                    </NavLink>
                 </nav>
 
-                {/* Rodapé com logout */}
-                <div className="py-4 border-t border-zinc-800 hover:bg-zinc-800 cursor-pointer">
+                <div className="py-4 border-t mt-8 border-zinc-800 hover:bg-zinc-800 cursor-pointer">
                     <button
                         onClick={logout}
                         className="w-full flex items-center gap-2 p-2 rounded cursor-pointer fill"
@@ -100,10 +162,8 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
                 </div>
             </aside>
 
-            {/* Conteúdo da página */}
             <main className="flex-1 overflow-y-auto p-6 bg-zinc-900 text-zinc-50">
-                <div className="p-6 space-y-4">
-
+                <div className="space-y-4">
                     {children}
                 </div>
             </main>
