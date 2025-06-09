@@ -5,12 +5,17 @@ using MediatR;
 
 namespace AzureAuthApi.Features.AuditLogs.Queries;
 
-public record struct QueryGetLogsProvisioning : IRequest<Result<IEnumerable<SignInLogResponseDto>>>;
+public record struct QueryGetLogsProvisioning : IRequest<Result<ProvisioningLogResponseDto[]>>;
 
-public class QueryGetLogsProvisioningHandler(IAzureGraphAuditlogRest rest) : IRequestHandler<QueryGetLogsProvisioning, Result<IEnumerable<SignInLogResponseDto>>>
+public class QueryGetLogsProvisioningHandler(IAzureGraphAuditlogRest rest) : IRequestHandler<QueryGetLogsProvisioning, Result<ProvisioningLogResponseDto[]>>
 {
-    public async Task<Result<IEnumerable<SignInLogResponseDto>>> Handle(QueryGetLogsProvisioning request, CancellationToken cancellationToken)
+    public async Task<Result<ProvisioningLogResponseDto[]>> Handle(QueryGetLogsProvisioning request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var result = await rest.CallApiLogProvisioningAsync(cancellationToken);
+
+        if (result.Length <= 0)
+            return Result.Fail("Not found logs Provisioning");
+        
+        return Result.Ok(result);
     }
 }

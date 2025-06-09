@@ -11,7 +11,7 @@ public class QueryGetLogsDirectoryAuditsHandler(IAzureGraphAuditlogRest rest) : 
 {
     public async Task<Result<DirectoryAuditsResponseDto[]>> Handle(QueryGetLogsDirectoryAudits request, CancellationToken cancellationToken)
     {
-        var result = await rest.CallApiLogsDirectoryAuditsAsync();
+        var result = await rest.CallApiLogsDirectoryAuditsAsync(cancellationToken);
 
         if (result.Length <= 0)
             return Result.Fail("No logs Directory Audit found");

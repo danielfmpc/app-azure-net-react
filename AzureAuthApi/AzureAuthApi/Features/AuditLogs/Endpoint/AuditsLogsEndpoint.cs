@@ -9,22 +9,34 @@ public static class AuditsLogsEndpoint
 {
     public static void MapAuditsLogsEndpoint(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("auditLogs/signIns", [Authorize] async ([FromServices] IMediator mediator)=>
+        endpoints.MapGet("auditLogs/signIns", [Authorize] async (
+            [FromServices] IMediator mediator,
+            CancellationToken cancellationToken
+        )=>
         {
             var query = new QueryGetLogsLogin();
-            var result = await mediator.Send(query);
+            var result = await mediator.Send(query, cancellationToken);
             return result.IsSuccess ?  Results.Ok(result.Value) : Results.BadRequest(result.Errors);
         });
-       /* endpoints.MapGet("auditLogs/directoryAudits", [Authorize] async (QueryGetLogsDirectoryAudits query,[FromServices] IMediator mediator)=> 
+        
+        endpoints.MapGet("auditLogs/directoryAudits", [Authorize] async (
+            [FromServices] IMediator mediator,
+            CancellationToken cancellationToken
+        )=> 
         {
-            var result = await mediator.Send(query);
+            var query = new QueryGetLogsDirectoryAudits();
+            var result = await mediator.Send(query, cancellationToken);
             return result.IsSuccess ?  Results.Ok(result.Value) : Results.BadRequest(result.Errors);
-        });*/
-        endpoints.MapGet("auditLogs/provisioning", [Authorize] async ([FromServices] IMediator mediator)=> 
+        });
+        
+        endpoints.MapGet("auditLogs/provisioning", [Authorize] async (
+            [FromServices] IMediator mediator,
+            CancellationToken cancellationToken
+        )=> 
         {
             var query = new QueryGetLogsProvisioning();
             
-            var result = await mediator.Send(query);
+            var result = await mediator.Send(query, cancellationToken);
             
             return result.IsSuccess ?  Results.Ok(result.Value) : Results.BadRequest(result.Errors);
         });

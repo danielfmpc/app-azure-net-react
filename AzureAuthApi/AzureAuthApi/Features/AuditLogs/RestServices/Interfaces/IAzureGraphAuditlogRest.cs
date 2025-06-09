@@ -4,6 +4,7 @@ namespace AzureAuthApi.Features.AuditLogs.RestServices.Interfaces;
 
 public interface IAzureGraphAuditlogRest
 {
-    Task<SignInLogResponseDto[]> CallApiLogsLoginAsync();
-    Task<DirectoryAuditsResponseDto[]> CallApiLogsDirectoryAuditsAsync();
+    Task<SignInLogResponseDto[]> CallApiLogsLoginAsync(CancellationToken cancellationToken);
+    Task<DirectoryAuditsResponseDto[]> CallApiLogsDirectoryAuditsAsync(CancellationToken cancellationToken);
+    Task<ProvisioningLogResponseDto[]> CallApiLogProvisioningAsync(CancellationToken cancellationToken);
 }

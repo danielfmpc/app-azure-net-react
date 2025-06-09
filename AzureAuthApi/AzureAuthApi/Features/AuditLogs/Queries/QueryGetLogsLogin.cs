@@ -11,10 +11,10 @@ public class QueryGetLogsLoginHandler(IAzureGraphAuditlogRest rest) : IRequestHa
 {
     public async Task<Result<SignInLogResponseDto[]>> Handle(QueryGetLogsLogin request, CancellationToken cancellationToken)
     {
-        var result = await rest.CallApiLogsLoginAsync();
+        var result = await rest.CallApiLogsLoginAsync(cancellationToken);
 
         if (result.Length == 0)
-            return Result.Fail("No logs login found");
+            return Result.Fail("Not found logs login");
         
         return Result.Ok(result);
     }
