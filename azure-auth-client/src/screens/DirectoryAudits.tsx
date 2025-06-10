@@ -92,7 +92,7 @@ function DirectoryAudits() {
 
     return (
         <div className="flex-1">
-            <Card className="w-full max-w-4xl mx-auto bg-transparent border border-zinc-800">
+            <Card className="w-full max-w-4xl bg-transparent border border-zinc-800">
                 <CardContent className="text-zinc-200">
                     {
                         hasGroups ? renderTableBody() : renderEmptyAuditLogProvising()
